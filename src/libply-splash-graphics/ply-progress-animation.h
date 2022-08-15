@@ -47,6 +47,8 @@ bool ply_progress_animation_load (ply_progress_animation_t *progress_animation);
 void ply_progress_animation_set_transition (ply_progress_animation_t           *progress_animation,
                                             ply_progress_animation_transition_t transition,
                                             double                              duration);
+void ply_progress_animation_set_frame_delay (ply_progress_animation_t *progress_animation,
+                                             double                   delay);
 void ply_progress_animation_show (ply_progress_animation_t *progress_animation,
                                   ply_pixel_display_t      *display,
                                   long                      x,

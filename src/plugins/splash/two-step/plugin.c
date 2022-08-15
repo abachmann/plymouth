@@ -186,6 +186,8 @@ struct _ply_boot_splash_plugin
         uint32_t                            use_firmware_background : 1;
         uint32_t                            dialog_clears_firmware_background : 1;
         uint32_t                            message_below_animation : 1;
+
+        double                              frame_delay;
 };
 
 ply_boot_splash_plugin_interface_t *ply_boot_splash_plugin_get_interface (void);
@@ -236,6 +238,9 @@ view_new (ply_boot_splash_plugin_t *plugin,
 
         view->subtitle_label = ply_label_new ();
         ply_label_set_font (view->subtitle_label, plugin->font);
+
+        ply_progress_animation_set_frame_delay (view->progress_animation,
+                                                plugin->frame_delay);
 
         return view;
 }
@@ -1170,6 +1175,10 @@ create_plugin (ply_key_file_t *key_file)
                 ply_key_file_get_long (key_file, "two-step",
                                        "ProgressBarHeight",
                                        PROGRESS_BAR_HEIGHT);
+
+        plugin->frame_delay =
+               ply_key_file_get_double (key_file, "two-step",
+                                       "FrameDelay", 0.0);
 
         load_mode_settings (plugin, key_file, "boot-up", PLY_BOOT_SPLASH_MODE_BOOT_UP);
         load_mode_settings (plugin, key_file, "shutdown", PLY_BOOT_SPLASH_MODE_SHUTDOWN);

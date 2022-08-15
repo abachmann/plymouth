@@ -71,6 +71,8 @@ struct _ply_progress_animation
 
         uint32_t                            is_hidden : 1;
         uint32_t                            is_transitioning : 1;
+
+        double                              frame_delay;
 };
 
 ply_progress_animation_t *
@@ -137,6 +139,13 @@ ply_progress_animation_free (ply_progress_animation_t *progress_animation)
         free (progress_animation->frames_prefix);
         free (progress_animation->image_dir);
         free (progress_animation);
+}
+
+void
+ply_progress_animation_set_frame_delay (ply_progress_animation_t *progress_animation,
+                                        double                   delay)
+{
+    progress_animation->frame_delay = delay;
 }
 
 static void
@@ -418,6 +427,10 @@ ply_progress_animation_show (ply_progress_animation_t *progress_animation,
 
         progress_animation->is_hidden = false;
         ply_progress_animation_draw (progress_animation);
+
+        if (progress_animation->frame_delay > 0.0) {
+            sleep(progress_animation->frame_delay);
+        }
 }
 
 void
